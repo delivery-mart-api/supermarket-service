@@ -19,4 +19,20 @@ class Pages extends BaseController
         ];
         echo view('pages/users', $data);
     }
+
+    public function login()
+    {
+        $data = [
+            'title' => 'Login | Supermarket System',
+        ];
+        echo view('pages/login', $data);
+    }
+
+    public function register()
+    {
+        $data = [
+            'title' => 'Register | Supermarket System',
+        ];
+        echo view('pages/register', $data);
+    }
 }
