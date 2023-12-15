@@ -9,10 +9,10 @@ class Products extends Entity
     protected $harga;
     protected $stok;
     protected $berat;
-    protected $created_date;
+    protected $created_at;
     protected $created_by;
     protected $updated_by;
-    protected $updated_date;
+    protected $updated_at;
 
     // Getter dan setter untuk setiap properti jika diperlukan
 
@@ -38,7 +38,7 @@ class Products extends Entity
 
     public function getCreatedDate()
     {
-        return $this->attributes['created_date'];
+        return $this->attributes['created_at'];
     }
     public function getCreatedBy()
     {
@@ -46,7 +46,7 @@ class Products extends Entity
     }
     public function getUpdatedDate()
     {
-        return $this->attributes['updated_date'];
+        return $this->attributes['updated_at'];
     }
     public function getUpdatedBy()
     {

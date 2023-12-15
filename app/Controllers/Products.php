@@ -1,91 +1,38 @@
 <?php namespace App\Controllers;
 
-use CodeIgniter\RESTful\ResourceController;
+use App\Models\ProductsModel;
 
-class Products extends ResourceController
+class Products extends BaseController
 {
-    protected $modelName = 'App\Models\ProductsModel';
-    protected $format = 'json';
+    protected $productsModel;
 
     public function __construct()
     {
-        $this->validation = \Config\Services::validation();
+        $this->productsModel = new ProductsModel();
     }
 
     public function index()
     {
-        return $this->respond($this->model->findAll());
+        $products = $this->productsModel->findAll();
+        $data = [
+            'title' => 'Home | Supermarket System',
+            'products' => $products
+        ];
+        return view('pages/products', $data);
     }
 
-    public function create()
+    public function save()
     {
-        $data = $this->request->getPost();
-        $validate = $this->validation->run($data, 'add_product');
-        $errors = $this->validation->getErrors();
+        $this->productsModel->save([
+            'nama' => $this->request->getVar('nama'),
+            'harga' => $this->request->getVar('harga'),
+            'stok' => $this->request->getVar('stok'),
+            'berat' => $this->request->getVar('berat'),
+            'gambar' => $this->request->getVar('gambar'),
+        ]);
 
-        if($errors){
-            return $this->fail($errors);
-        }
+        session()->setFlashdata('pesan','Produk berhasil ditambahkan.');
 
-        $product = new \App\Entities\Products();
-        $product->fill($data);
-        $product->created_by = 0;
-        $product->created_date = date("Y-m-d H:i:s");
-
-        if($this->model->save($product))
-        {
-            return $this->respondCreated($product, 'product added');
-        }
-    }
-
-    public function update($id = null)
-    {
-        $data = $this->request->getRawInput();
-        if(!$this->model->findById($id))
-        {
-            return $this->fail('id tidak ditemukan');
-        }
-        $data['id'] = $id;
-        $validate = $this->validation->run($data, 'update_product');
-        $errors = $this->validation->getErrors();
-
-        if($errors)
-        {
-            return $this->fail($errors);
-        }
-
-        $product = new \App\Entities\Products();
-        $product->fill($data);
-        $product->updated_by = 0;
-        $product->updated_date = date("Y-m-d H:i:s");
-
-        if($this->model->save($product))
-        {
-            return $this->respondUpdated($product, 'product updated');
-        }
-    }
-
-    public function delete($id = null)
-    {
-        if(!$this->model->findById($id))
-        {
-            return $this->fail('id tidak ditemukan');
-        }
-
-        if($this->model->delete($id)){
-            return $this->respondDeleted(['id'=>$id,'message'=>'successfully deleted']);
-        }
-    }
-
-    public function show($id = null)
-    {
-        $data = $this->model->findById($id);
-        if($data)
-        {
-            return $this->respond($data);
-        }
-        return $this->fail('id tidak ditemukan');
+        return redirect()->to(base_url('/'));
     }
 }
-
-?>

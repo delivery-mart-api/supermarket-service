@@ -4,13 +4,16 @@ namespace App\Controllers;
 
 class Pages extends BaseController
 {
-    public function index()
-    {
-        $data = [
-            'title' => 'Home | Supermarket System',
-        ];
-        return view('pages/home', $data);
-    }
+
+    // public function index()
+    // {
+    //     $products = $this->productsModel->findAll();
+    //     $data = [
+    //         'title' => 'Home | Supermarket System',
+    //         'products' => $products
+    //     ];
+    //     return view('pages/home', $data);
+    // }
 
     public function users()
     {
