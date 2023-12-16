@@ -31,21 +31,26 @@ class CreateProductsTable extends Migration
                 'type' => 'INT',
                 'constraint' => 5,
             ],
+            'gambar' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
+            ],
             'created_by' => [
                 'type' => 'INT',
                 'constraint' => '5',
             ],
-            'created_date' => [
+            'created_at' => [
                 'type' => 'DATETIME',
             ],
             'updated_by' => [
                 'type' => 'INT',
                 'constraint' => '5',
-                'null' => TRUE,
+                'null' => true,
             ],
-            'updated_date' => [
+            'updated_at' => [
                 'type' => 'DATETIME',
-                'null' => TRUE,
+                'null' => true,
             ]
         ]);
 

@@ -8,10 +8,10 @@ class ProductsModel extends Model
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'nama', 'harga', 'stok', 'berat', 'created_by', 'created_date', 'updated_by', 'updated_date'
+        'nama', 'harga', 'stok', 'berat', 'gambar', 'created_by', 'created_at', 'updated_by', 'updated_at'
     ];
-    protected $returnType = 'App\Entities\Products';
-    protected $useTimestamps = false;
+    // protected $returnType = 'App\Entities\Products';
+    protected $useTimestamps = true;
 
     public function findById($id)
     {
