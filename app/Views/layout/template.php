@@ -17,6 +17,20 @@
 
   <!-- footer -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script>
+    function previewImg() {
+      const gambar = document.querySelector('#gambar');
+      const imgPreview = document.querySelector('.img-preview');
+  
+      const fileGambar = new FileReader();
+      fileGambar.readAsDataURL(gambar.files[0]);
+  
+      fileGambar.onload = function (e) {
+        imgPreview.src = e.target.result;
+      }
+  }
+
+  </script>
 </body>
 
 </html>

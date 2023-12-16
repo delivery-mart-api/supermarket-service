@@ -16,7 +16,7 @@
                                 <h1 class="modal-title fs-5" id="addModalLabel">Add Product</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="products/save" method="post">
+                            <form action="products/save" method="post" enctype="multipart/form-data">
                                 <?= csrf_field(); ?>
                                 <div class="modal-body">
                                     <div class="row">
@@ -45,14 +45,19 @@
                                     </div>
                                     <div class="row my-2">
                                         <div class="col">
-                                            <label for="tambah-gambar" class="form-label">Gambar Produk</label>
-                                            <input required type="text" class="form-control" id="tambah-gambar" name="gambar" />
+                                            <label for="gambar" class="form-label">Gambar Produk</label>
+                                            <div>
+                                                <img src="/img/default.png" alt="box" class="w-25 img-preview">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <input type="file" class="form-control" id="gambar" name="gambar" onchange="previewImg()">                                            
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>                                
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                    <button type="submit" class="btn btn-success">Add Product</button>
                                 </div>
+                            </div>
                             </form>
                         </div>
                     </div>
@@ -61,6 +66,11 @@
             <?php if(session()->getFlashdata('pesan')) : ?>
                 <div class="alert alert-success" role="alert">
                     <?= session()->getFlashdata('pesan'); ?>
+                </div>
+            <?php endif; ?>
+            <?php if(session()->getFlashdata('gagal')) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= session()->getFlashdata('gagal'); ?>
                 </div>
             <?php endif; ?>
 
@@ -114,6 +124,7 @@
                         <th scope="col">Berat</th>
                         <th scope="col">Harga</th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -128,7 +139,7 @@
                         <td class="pt-3"><?= $product['harga']; ?></td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="me-5 btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">
                                     Edit Product
                                 </button>
                             </div>
@@ -137,40 +148,63 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="editModalLabel">Edit Product</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></∂>
                                         </div>
-                                        <form>
+                                        <form action="/products/<?= $product['id']; ?>" method="post" enctype="multipart/form-data">
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="gambarLama" value="<?= $product['gambar']; ?>">
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-6">
+                                                    <div class="col">
                                                         <label for="edit-nama" class="form-label">Nama Produk</label>
-                                                        <input type="text" class="form-control" id="edit-nama" name="nama" />
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label for="edit-harga" class="form-label">Harga Produk</label>
-                                                        <input type="text" class="form-control" id="edit-harga" name="harga" />
+                                                        <input type="text" class="form-control" id="edit-nama" name="nama" value="<?= $product['nama']; ?>" />
                                                     </div>
                                                 </div>
                                                 <div class="row my-2">
-                                                    <div class="col-6">
-                                                        <label for="edit-stok" class="form-label">Jumlah Stok</label>
-                                                        <input type="text" class="form-control" id="edit-stok" name="stock" />
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label for="edit-berat" class="form-label">Berat Produk</label>
-                                                        <input type="text" class="form-control" id="edit-berat" name="berat" />
+                                                    <div class="col">
+                                                        <label for="edit-harga" class="form-label">Harga Produk</label>
+                                                        <input type="text" class="form-control" id="edit-harga" name="harga" value="<?= $product['harga']; ?>"/>
                                                     </div>
                                                 </div>
-
+                                                <div class="row my-2">
+                                                    <div class="col">
+                                                        <label for="edit-stok" class="form-label">Jumlah Stok</label>
+                                                        <input type="text" class="form-control" id="edit-stok" name="stok" value="<?= $product['stok']; ?>"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-2">  
+                                                    <div class="col">
+                                                        <label for="edit-berat" class="form-label">Berat Produk</label>
+                                                        <input type="text" class="form-control" id="edit-berat" name="berat" value="<?= $product['berat']; ?>"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col">
+                                                        <label for="gambar" class="form-label">Gambar Produk</label>
+                                                        <div>
+                                                            <img src="/img/<?= $product['gambar']; ?>" alt="box" class="w-25 img-preview">
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <input type="file" class="form-control" id="gambar" name="gambar" onchange="previewImg()">                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="_method" value="PUT">
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger">Delete Product</button>
-                                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                                <button href='' class="btn btn-success">Save Changes</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                            <form action="/products/<?= $product['id'] ;?>" method="post" class="d-inline">
+                                <?= csrf_field(); ?>
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus <?= $product['nama'];?>?')">Delete Product</button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>
