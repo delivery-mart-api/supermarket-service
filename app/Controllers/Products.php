@@ -1,91 +1,176 @@
 <?php namespace App\Controllers;
 
-use CodeIgniter\RESTful\ResourceController;
+use App\Models\ProductsModel;
 
-class Products extends ResourceController
+class Products extends BaseController
 {
-    protected $modelName = 'App\Models\ProductsModel';
-    protected $format = 'json';
+    protected $productsModel;
 
     public function __construct()
     {
-        $this->validation = \Config\Services::validation();
+        $this->productsModel = new ProductsModel();
     }
 
     public function index()
     {
-        return $this->respond($this->model->findAll());
+        session();
+        $products = $this->productsModel->findAll();
+        $data = [
+            'title' => 'Home | Supermarket System',
+            'products' => $products,
+            'validation' => \Config\Services::validate()
+        ];
+        return view('pages/products', $data);
     }
 
-    public function create()
+    public function save()
     {
-        $data = $this->request->getPost();
-        $validate = $this->validation->run($data, 'add_product');
-        $errors = $this->validation->getErrors();
-
-        if($errors){
-            return $this->fail($errors);
+        // validasi input
+        if(!$this->validate([
+            'nama' => [
+                'rules' => 'required|is_unique[products.nama]',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_unique' => '{field} produk sudah terdaftar'
+                ]
+            ],
+            'harga' => [
+                'rules' => 'required|is_natural',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_natural' => '{field} produk harus bernilai positif.'
+                ]
+            ],
+            'stok' => [
+                'rules' => 'required|is_natural',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_natural' => '{field} produk harus bernilai positif.'
+                ]
+            ],
+            'berat' => [
+                'rules' => 'required|is_natural_no_zero',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_natural_no_zero' => '{field} produk harus bernilai positif dan tidak nol.'
+                ]
+            ],
+            'gambar' => [
+                'rules' => 'max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'max_size' => 'Ukuran gambar terlalu besar',
+                    'is_image' => 'Tolong pilih file gambar',
+                    'mime_in' => 'Tolong pilih file gambar'
+                ]
+            ]
+        ])) {
+            // $validation = \Config\Services::validate();
+            // return redirect()->to(base_url('/'))->withInput('validation', $validation);
+            return redirect()->to(base_url('/'))->withInput();
         }
 
-        $product = new \App\Entities\Products();
-        $product->fill($data);
-        $product->created_by = 0;
-        $product->created_date = date("Y-m-d H:i:s");
-
-        if($this->model->save($product))
-        {
-            return $this->respondCreated($product, 'product added');
+        // ambil gambar
+        $fileGambar = $this->request->getFile('gambar');
+        
+        if($fileGambar->getError() == 4) {
+            $namaGambar = 'default.png';
+        } else {
+            $namaGambar = $fileGambar->getRandomName();
+            
+            $fileGambar->move('img', $namaGambar);
         }
+        
+
+        $this->productsModel->save([
+            'nama' => $this->request->getVar('nama'),
+            'harga' => $this->request->getVar('harga'),
+            'stok' => $this->request->getVar('stok'),
+            'berat' => $this->request->getVar('berat'),
+            'gambar' => $namaGambar,
+        ]);
+        
+        session()->setFlashdata('pesan','Produk berhasil ditambahkan.');
+
+        return redirect()->to(base_url('/'));
     }
 
-    public function update($id = null)
+    public function delete($id)
     {
-        $data = $this->request->getRawInput();
-        if(!$this->model->findById($id))
-        {
-            return $this->fail('id tidak ditemukan');
-        }
-        $data['id'] = $id;
-        $validate = $this->validation->run($data, 'update_product');
-        $errors = $this->validation->getErrors();
+        $product = $this->productsModel->find($id);
 
-        if($errors)
-        {
-            return $this->fail($errors);
+        if($product['gambar'] != 'default.png'){
+            // hapus gambar
+            unlink('img/' . $product['gambar']);
         }
-
-        $product = new \App\Entities\Products();
-        $product->fill($data);
-        $product->updated_by = 0;
-        $product->updated_date = date("Y-m-d H:i:s");
-
-        if($this->model->save($product))
-        {
-            return $this->respondUpdated($product, 'product updated');
-        }
+        $this->productsModel->delete($id);
+        session()->setFlashdata('pesan','Produk berhasil dihapus.');
+        return redirect()->to(base_url('/'));
     }
 
-    public function delete($id = null)
+    public function update($id)
     {
-        if(!$this->model->findById($id))
-        {
-            return $this->fail('id tidak ditemukan');
+        // validasi input
+        if(!$this->validate([
+            'nama' => [
+                'rules' => 'required|is_unique[products.nama,id,{id}]',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_unique' => '{field} produk sudah terdaftar'
+                ]
+            ],
+            'harga' => [
+                'rules' => 'required|is_natural',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_natural' => '{field} produk harus bernilai positif.'
+                ]
+            ],
+            'stok' => [
+                'rules' => 'required|is_natural',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_natural' => '{field} produk harus bernilai positif.'
+                ]
+            ],
+            'berat' => [
+                'rules' => 'required|is_natural_no_zero',
+                'errors' => [
+                    'required' => '{field} produk harus diisi.',
+                    'is_natural_no_zero' => '{field} produk harus bernilai positif dan tidak nol.'
+                ]
+            ],
+            'gambar' => [
+                'rules' => 'max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'max_size' => 'Ukuran gambar terlalu besar',
+                    'is_image' => 'Tolong pilih file gambar',
+                    'mime_in' => 'Tolong pilih file gambar'
+                ]
+            ]
+        ])) {
+            return redirect()->to(base_url('/'))->withInput();
         }
 
-        if($this->model->delete($id)){
-            return $this->respondDeleted(['id'=>$id,'message'=>'successfully deleted']);
-        }
-    }
+        $fileGambar = $this->request->getFile('gambar');
 
-    public function show($id = null)
-    {
-        $data = $this->model->findById($id);
-        if($data)
-        {
-            return $this->respond($data);
+        if($fileGambar->getError() == 4) {
+            $namaGambar = $this->request->getVar('gambarLama');
+        } else {
+            $namaGambar = $fileGambar->getRandomName();
+            $fileGambar->move('img', $namaGambar);
+            unlink('img/' . $this->request->getVar('gambarLama'));
         }
-        return $this->fail('id tidak ditemukan');
+
+        $this->productsModel->save([
+            'id' => $id,
+            'nama' => $this->request->getVar('nama'),
+            'harga' => $this->request->getVar('harga'),
+            'stok' => $this->request->getVar('stok'),
+            'berat' => $this->request->getVar('berat'),
+            'gambar' => $namaGambar,
+        ]);
+            session()->setFlashdata('pesan','Produk berhasil diubah.');
+
+        return redirect()->to(base_url('/'));
     }
 }
-
-?>
