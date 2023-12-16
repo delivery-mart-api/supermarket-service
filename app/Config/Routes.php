@@ -7,9 +7,13 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Products::index');
 $routes->get('/pages', 'Products::index');
-$routes->get('/pages/login', 'Pages::login');
-$routes->get('/pages/register', 'Pages::register');
-$routes->get('/pages/users', 'Pages::users');
+
+$routes->get('/register', 'Register::index');
+$routes->post('/register', 'User::create');
+
+$routes->get('/login', 'Login::index');
+$routes->post('/login', 'Login::login');
+
 $routes->post('products/save', 'Products::save');
 $routes->delete('products/(:num)', 'Products::delete/$1');
 $routes->put('products/(:num)', 'Products::update/$1');
