@@ -6,7 +6,9 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Products::index');
-$routes->get('/pages', 'Products::index');
+$routes->get('/products', 'Products::index');
+
+$routes->get('/orders', 'Orders::index');
 
 $routes->get('/register', 'Register::index');
 $routes->post('/register', 'User::create');
