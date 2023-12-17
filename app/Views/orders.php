@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>ini page user</h1>
+            <h1>ini page order</h1>
         </div>
     </div>
 </div>

@@ -19,10 +19,27 @@
                             <form action="products/save" method="post" enctype="multipart/form-data">
                                 <?= csrf_field(); ?>
                                 <div class="modal-body">
+                                    <h3><?= $validation; ?></h3>
                                     <div class="row">
                                         <div class="col">
                                             <label for="tambah-nama" class="form-label">Nama Produk</label>
                                             <input required type="text" class="form-control" id="tambah-nama" name="nama" />
+                                        </div>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col">
+                                            <label for="tambah-nama" class="form-label">Kategori Produk</label>
+                                            <div class="input-group mb-3">
+                                                <select class="form-select" id="inputGroupSelect02" name="kategori">
+                                                    <option selected>Pilih Kategori</option>
+                                                    <option value="Minuman">Minuman</option>
+                                                    <option value="Daging">Daging</option>
+                                                    <option value="Sayuran">Sayuran</option>
+                                                    <option value="Buah">Buah</option>
+                                                    <option value="Peralatan Mandi">Peralatan Mandi</option>
+                                                </select>
+                                                <label class="input-group-text" for="inputGroupSelect02">Pilihan</label>
+                                            </div>                                        
                                         </div>
                                     </div>
                                     <div class="row my-2">
@@ -43,7 +60,7 @@
                                             <input required type="number" class="form-control" id="tambah-berat" name="berat" />
                                         </div>
                                     </div>
-                                    <div class="row my-2">
+                                    <!-- <div class="row my-2">
                                         <div class="col">
                                             <label for="gambar" class="form-label">Gambar Produk</label>
                                             <div>
@@ -53,7 +70,7 @@
                                                 <input type="file" class="form-control" id="gambar" name="gambar" onchange="previewImg()">                                            
                                             </div>
                                         </div>
-                                    </div>                                
+                                    </div>                                 -->
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success">Add Product</button>
                                 </div>
@@ -64,13 +81,15 @@
                 </div>
             </div>
             <?php if(session()->getFlashdata('pesan')) : ?>
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?= session()->getFlashdata('pesan'); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            <?php endif; ?>
-            <?php if(session()->getFlashdata('gagal')) : ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= session()->getFlashdata('gagal'); ?>
+                <?php endif; ?>
+                <?php if(session()->getFlashdata('gagal')) : ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= session()->getFlashdata('gagal'); ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
@@ -139,64 +158,9 @@
                         <td class="pt-3"><?= $product['harga']; ?></td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">
+                                <a href="/edit/<?= $product['id']?>" class="btn btn-success">
                                     Edit Product
-                                </button>
-                            </div>
-                            <div class="modal fade modal-xl" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="editModalLabel">Edit Product</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></∂>
-                                        </div>
-                                        <form action="/products/<?= $product['id']; ?>" method="post" enctype="multipart/form-data">
-                                            <?= csrf_field(); ?>
-                                            <input type="hidden" name="gambarLama" value="<?= $product['gambar']; ?>">
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <label for="edit-nama" class="form-label">Nama Produk</label>
-                                                        <input type="text" class="form-control" id="edit-nama" name="nama" value="<?= $product['nama']; ?>" />
-                                                    </div>
-                                                </div>
-                                                <div class="row my-2">
-                                                    <div class="col">
-                                                        <label for="edit-harga" class="form-label">Harga Produk</label>
-                                                        <input type="text" class="form-control" id="edit-harga" name="harga" value="<?= $product['harga']; ?>"/>
-                                                    </div>
-                                                </div>
-                                                <div class="row my-2">
-                                                    <div class="col">
-                                                        <label for="edit-stok" class="form-label">Jumlah Stok</label>
-                                                        <input type="text" class="form-control" id="edit-stok" name="stok" value="<?= $product['stok']; ?>"/>
-                                                    </div>
-                                                </div>
-                                                <div class="row my-2">  
-                                                    <div class="col">
-                                                        <label for="edit-berat" class="form-label">Berat Produk</label>
-                                                        <input type="text" class="form-control" id="edit-berat" name="berat" value="<?= $product['berat']; ?>"/>
-                                                    </div>
-                                                </div>
-                                                <div class="row my-2">
-                                                    <div class="col">
-                                                        <label for="gambar" class="form-label">Gambar Produk</label>
-                                                        <div>
-                                                            <img src="/img/<?= $product['gambar']; ?>" alt="box" class="w-25 img-preview">
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <input type="file" class="form-control" id="gambar" name="gambar" onchange="previewImg()">                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" name="_method" value="PUT">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button href='' class="btn btn-success">Save Changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         </td>
                         <td>
@@ -213,4 +177,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('button[data-bs-target^="#editModal"]').on('click', function() {
+            var productId = $(this).data('product-id');
+            var modalId = '#editModal' + productId;
+
+            // Isi formulir dengan data produk berdasarkan ID
+            $(modalId + ' #edit-nama').val('<?= $product['nama']; ?>');
+            $(modalId + ' #edit-harga').val('<?= $product['harga']; ?>');
+            $(modalId + ' #edit-stok').val('<?= $product['stok']; ?>');
+            $(modalId + ' #edit-berat').val('<?= $product['berat']; ?>');
+            $(modalId + ' #gambar').val(''); // Bersihkan input file
+        });
+    });
+</script>
+
 <?= $this->endSection(); ?>

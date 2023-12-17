@@ -13,7 +13,7 @@ class Login extends BaseController
         // if (session()->get('num_user') != '') {
         //     return redirect()->to('/');
         // }
-        return view('pages/login');
+        return view('login');
     }
 
     public function login(){

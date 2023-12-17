@@ -33,7 +33,7 @@ class ProductsSeeder extends Seeder
                 'harga' => 20000,
                 'stok' => 10,
                 'berat' => 350,
-                'gambar' => 'beef.png',
+                'gambar' => 'meat.png',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
