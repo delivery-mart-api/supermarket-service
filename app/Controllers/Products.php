@@ -20,7 +20,7 @@ class Products extends BaseController
             'products' => $products,
             'validation' => \Config\Services::validate()
         ];
-        return view('pages/products', $data);
+        return view('products', $data);
     }
 
     public function save()

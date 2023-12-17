@@ -27,7 +27,7 @@
             <div class="col-4 bg-success bg-gradient align-items-center justify-content-center d-flex flex-column gap-4">
                 <h1 class="text-light">Sudah terdaftar?</h1>
                 <p class="text-light fs-4 text-center">Segera login cabangmu untuk layanan delivery online!</p>
-                <a href="<?= base_url('/pages/login'); ?>" type="button" class="btn btn-light rounded-pill px-5 py-2">Sign In</a>
+                <a href="<?= base_url('login'); ?>" type="button" class="btn btn-light rounded-pill px-5 py-2">Sign In</a>
             </div>
         </div>
     </div>
