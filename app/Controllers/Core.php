@@ -49,7 +49,7 @@ class Core extends ResourceController
                 $history = array();
                 foreach($decodedTransactions as $transaction) :
                     if ($user == $transaction['user_id']) {
-                        array_push($history,$transaction);
+                        array_push($history,$transaction['product_id']);
                     }
                 endforeach;
                 $maxProduct = "0";
@@ -57,7 +57,7 @@ class Core extends ResourceController
                 foreach($history as $i) :
                     $count = 0;
                     foreach($history as $j) :
-                        if ($i['product_id'] == $j['product_id']) {
+                        if ($i == $j) {
                             $count += 1;
                         }
                     endforeach;
@@ -66,7 +66,7 @@ class Core extends ResourceController
                         $maxProduct = $i;
                     }
                 endforeach;
-                $rekomen[$user] = $maxProduct;
+                $rekomen[$user] = model(ProductsModel::class)->findById($maxProduct);
             endforeach;
             return $this->respond($rekomen);
         }
