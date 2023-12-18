@@ -10,9 +10,9 @@ class Login extends BaseController
     public function index()
     {   
         // UNCOMMENT jika ingin restrict access route kalo berhasil login
-        // if (session()->get('num_user') != '') {
-        //     return redirect()->to('/');
-        // }
+        if (session()->get('num_user') != '') {
+            return redirect()->to(base_url('products'));
+        }
         return view('login');
     }
 
