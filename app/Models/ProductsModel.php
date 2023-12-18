@@ -30,4 +30,8 @@ class ProductsModel extends Model
         return $this->where(['id' => $id])->first();
     }
 
+    public function getProductById($productId)
+    {
+        return $this->where('id', $productId)->first();
+    }
 }
