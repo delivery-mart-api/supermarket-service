@@ -18,14 +18,15 @@ $routes->post('/register', 'User::create');
 $routes->get('/login', 'Login::index');
 $routes->post('/login', 'Login::login');
 
-$routes->post('products/save', 'Products::save');
+$routes->get('/admin/create', 'Products::create');
+$routes->post('admin/products/save', 'Products::save');
 $routes->delete('products/(:num)', 'Products::delete/$1');
 // $routes->resource('api/products');
 $routes->get('/api/products/(:any)/(:any)', 'Api\Products::index/$1/$2');
 
 $routes->get('/api/share/(:any)', 'Core::index/$1');
 $routes->get('/rekomendasi', 'Core::rekomendasi');
-$routes->put('admin/products/update/(:num)', 'Products::update/$1');
-$routes->put('branch/products/update/(:num)', 'Products::update/$1');
+$routes->put('admin/products/(:num)', 'Products::update/$1');
+$routes->put('branch/products/(:num)', 'Products::update/$1');
 
 $routes->post('/logout', 'Login::logout');

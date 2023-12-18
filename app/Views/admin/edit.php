@@ -3,12 +3,12 @@
 <?= $this->section('content'); ?>
 <div class="container pt-2 pb-5">
     <h2>Edit Product</h2>
-
+    
     <div>
         <img src="<?= ($product['gambar']); ?>" alt="" class="w-25 img-preview">
     </div>
 
-    <form action="<?= base_url('products/update/' . $product['id']); ?>" method="post">
+    <form action="<?= base_url('admin/products/' . $product['id']); ?>" method="post">
         <input type="hidden" name="_method" value="PUT">
         <?= csrf_field(); ?>
         <div class="row">
@@ -50,19 +50,6 @@
                     </div>
                 <?php else: ?>
                         <input type="number" class="form-control" id="edit-harga" name="harga" value="<?= $product['harga']; ?>"/>
-                <?php endif; ?>
-            </div>
-        </div>
-        <div class="row my-2">
-            <div class="col">
-                <label for="edit-stok" class="form-label">Jumlah Stok</label>
-                <?php if (session('validation') && session('validation')->hasError('stok'))  : ?>
-                    <input type="number" class="form-control is-invalid" id="edit-stok" name="stok" value="<?= $product['stok']; ?>"/>
-                    <div class="invalid-feedback">
-                        <?= session('validation')->getError('stok'); ?>
-                    </div>
-                <?php else: ?>
-                        <input type="number" class="form-control" id="edit-stok" name="stok" value="<?= $product['stok']; ?>"/>
                 <?php endif; ?>
             </div>
         </div>
