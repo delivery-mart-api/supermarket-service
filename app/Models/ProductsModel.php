@@ -60,6 +60,10 @@ class ProductsModel extends Model
          }
     }
 
+    public function getProductById($productId)
+    {
+        return $this->where('id', $productId)->first();
+    }
     public function getUserByUsername($username)
     {
         return $this->db->table('user')
@@ -77,7 +81,7 @@ class ProductsModel extends Model
     }
 
     public function insertBranchProductStock($data)
-{
+    {
     $this->db->table('branch_product_stock')->insert($data);
-}
+    }
 }

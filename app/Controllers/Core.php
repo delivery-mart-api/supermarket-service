@@ -21,57 +21,54 @@ class Core extends ResourceController
         }
     }
     public function rekomendasi() {
-        $curl = curl_init('http://localhost:8080/users');
+        $curl = curl_init('http://localhost:8080/transaction/indoapril/password');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $user_id = curl_exec($curl);
+        $transaction = curl_exec($curl);
         curl_close($curl);
         
-        $decodedUsers = json_decode($user_id, true);
+        $decodedTransactions = json_decode($transaction, true);
 
-        if (!$decodedUsers) {
+        if (!$decodedTransactions) {
             return $this->respond([]);
         } else {
-            $curl = curl_init('http://localhost:8080/transaction/indoapril/password');
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $transaction = curl_exec($curl);
-            curl_close($curl);
+            $users = array();
+            foreach($decodedTransactions as $i) :
+                $check = true;
+                foreach($users as $j) :
+                    if ($i['user_id'] == $j) {
+                        $check = false;
+                    }
+                endforeach;
+                if ($check) {
+                    array_push($users, $i['user_id']);
+                }
+            endforeach;
+            $rekomen = array();
             
-            $decodedTransactions = json_decode($transaction, true);
-    
-            if (!$decodedTransactions) {
-                $emptyTransaction = array();
-                foreach($decodedUsers as $user) :
-                    array_push($emptyTransaction, "0");
+            foreach($users as $user) :
+                $history = array();
+                foreach($decodedTransactions as $transaction) :
+                    if ($user == $transaction['user_id']) {
+                        array_push($history,$transaction['product_id']);
+                    }
                 endforeach;
-                return $this->respond($emptyTransaction);
-            } else {
-                $rekomen = array();
-                
-                foreach($decodedUsers as $user) :
-                    $history = array();
-                    foreach($decodedTransactions as $transaction) :
-                        if ($user['id'] == $transaction['user_id']) {
-                            array_push($history,$transaction['product_id']);
+                $maxProduct = "0";
+                $countTotal = 0;
+                foreach($history as $i) :
+                    $count = 0;
+                    foreach($history as $j) :
+                        if ($i == $j) {
+                            $count += 1;
                         }
                     endforeach;
-                    $maxProduct = "0";
-                    $countTotal = 0;
-                    foreach($history as $i) :
-                        $count = 0;
-                        foreach($history as $j) :
-                            if ($i == $j) {
-                                $count += 1;
-                            }
-                        endforeach;
-                        if ($count > $countTotal) {
-                            $countTotal = $count;
-                            $maxProduct = $i;
-                        }
-                    endforeach;
-                    array_push($rekomen,$maxProduct);
+                    if ($count > $countTotal) {
+                        $countTotal = $count;
+                        $maxProduct = $i;
+                    }
                 endforeach;
-                return $this->respond($rekomen);
-            }
+                $rekomen[$user] = $maxProduct;
+            endforeach;
+            return $this->respond($rekomen);
         }
     }
 }
