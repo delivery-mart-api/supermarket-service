@@ -47,27 +47,55 @@ class ProductsModel extends Model
             return $query->getResultArray()['0'];
     }
 
-    public function getApiProducts($username) {
-        if ($username) {
-            $query = $this->db->table('branch_product_stock')
-                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
-                            ->join('products', 'products.id = branch_product_stock.product_id')
-                            ->join('user', 'user.id = branch_product_stock.branch_id')
-                            ->where('user.username', $username)
-                            ->get();
+    public function getApiProducts($username)
+    {
+        // Ambil data produk
+        $products = $this->asArray()->findAll();
 
-            return $query->getResultArray();
-         }
+        // Iterasi produk dan tambahkan atribut stok
+        foreach ($products as &$product) {
+            $productId = $product['id'];
+            $branchId = $this->getBranchIdByUsername($username); // Gantilah dengan metode yang sesuai
+
+            // Ambil stok dari branch_product_stock
+            $stock = $this->getStockByProductIdAndBranchId($productId, $branchId);
+
+            // Tambahkan atribut stok ke produk
+            $product['stok'] = $stock;
+        }
+
+        return $products;
+    }
+
+    protected function getBranchIdByUsername($username)
+    {
+        // Implementasikan metode untuk mendapatkan ID cabang berdasarkan username
+        // Misalnya, jika Anda memiliki tabel 'branch' dengan kolom 'username'
+        $branch = $this->db->table('user')->where('username', $username)->get()->getRow();
+        return $branch ? $branch->id : null;
+    }
+
+    protected function getStockByProductIdAndBranchId($productId, $branchId)
+    {
+        // Implementasikan metode untuk mendapatkan stok berdasarkan ID produk dan cabang
+        // Misalnya, jika Anda memiliki tabel 'branch_product_stock' dengan kolom 'product_id', 'branch_id', dan 'stok'
+        $stock = $this->db->table('branch_product_stock')
+            ->where(['product_id' => $productId, 'branch_id' => $branchId])
+            ->get()
+            ->getRow();
+
+        return $stock ? $stock->stok : 0;
     }
 
     public function getProductById($productId)
     {
         return $this->where('id', $productId)->first();
     }
-    public function getUserByUsername($username)
+    public function getUser($username, $password)
     {
         return $this->db->table('user')
                     ->where('username', $username)
+                    ->where('password', $password)
                     ->get()
                     ->getRowArray();
     }
@@ -82,6 +110,6 @@ class ProductsModel extends Model
 
     public function insertBranchProductStock($data)
     {
-    $this->db->table('branch_product_stock')->insert($data);
+        $this->db->table('branch_product_stock')->insert($data);
     }
 }

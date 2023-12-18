@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
+use App\Models\BranchProductStockModel;
+use App\Models\ProductsModel;
 
 class User extends BaseController
 {
@@ -39,7 +41,20 @@ class User extends BaseController
             $data['id'] = $user_id;
             unset($data['password']);
 
+            $this->addProductsToBranch($user_id);
             return redirect()->to('/login');
+        }
+    }
+
+    public function addProductsToBranch($branchId)
+    {
+        $productsModel = new ProductsModel();
+        $branchProductStockModel = new BranchProductStockModel();
+
+        $products = $productsModel->findAll();
+        foreach ($products as $product) {
+            $productId = $product['id'];
+            $branchProductStockModel->saveProductToBranch($branchId, $productId);
         }
     }
 }

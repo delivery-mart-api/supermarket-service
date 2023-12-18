@@ -17,7 +17,7 @@
                 <h1>Register Cabangmu</h1>
                 <div class="container w-75">
                     <form action="/register" method="POST" class="d-flex flex-column justify-content-center align-items-center gap-2 w-100">
-                        <input required type="text" class="rounded-pill form-control px-4 w-100" id="cabang-register" style="max-width: 400px;height: 50px" name="nama_cabang" placeholder="Cabang" />
+                        <input required type="text" class="rounded-pill form-control px-4 w-100" id="cabang-register" style="max-width: 400px;height: 50px" name="name" placeholder="Nama Cabang" />
                         <input required type="text" class="rounded-pill form-control px-4 w-100" id="username-register" style="max-width: 400px;height: 50px" name="username" placeholder="Username" />
                         <input required type="password" class="rounded-pill form-control px-4 w-100" id="password-register" style="max-width: 400px;height: 50px" name="password" placeholder="Password" />
                         <button type="submit" class="btn mt-3 btn-success rounded-pill px-5 py-2">Sign Up</button>
