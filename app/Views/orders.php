@@ -4,7 +4,7 @@
     <div class="container">
         <div class="mt-4">
             <h2 class="text-primary text-center">Riwayat Order</h2>
-            <h2 class="text-left">Profit Share : <?= $profit_share; ?></h2>
+            <h2 class="text-left">Profit Share : Rp<?= $profit_share; ?></h2>
         </div>
         <div class="d-flex flex-column p-3 items-center">
             <?php if (empty($orders)) : ?>

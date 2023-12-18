@@ -5,7 +5,7 @@
     <div class="row" style="min-height: 92vh;">
         <div class="col-10" style="min-height: 92vh;">
             <div class="d-flex justify-content-between align-items-center my-4">
-                <h4>Product Management</h4>
+                <h4>Product Management <?= session()->get('num_user')['name']; ?></h4>
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
                     Add Product
                 </button>
