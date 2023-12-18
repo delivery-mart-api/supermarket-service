@@ -23,4 +23,4 @@ $routes->put('products/(:num)', 'Products::update/$1');
 $routes->get('/api/products/(:any)/(:any)', 'Api\Products::index/$1/$2');
 
 $routes->get('/api/share/(:any)', 'Core::index/$1');
-$routes->get('/api/share2/(:any)/(:any)', 'Core::rekomendasi/$1/$2');
+$routes->get('/rekomendasi', 'Core::rekomendasi');

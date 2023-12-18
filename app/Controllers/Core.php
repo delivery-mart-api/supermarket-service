@@ -21,70 +21,58 @@ class Core extends ResourceController
         }
     }
 
-    public function rekomendasi($supermarket_id, $user_id) {
-        $curl = curl_init(sprintf('http://localhost:8080/transactions/%u',$supermarket_id));
+    public function rekomendasi() {
+        $curl = curl_init('http://localhost:8080/users');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $transactions = curl_exec($curl);
+        $user_id = curl_exec($curl);
         curl_close($curl);
         
-        $decodedTransactions = json_decode($transactions, true);
+        $decodedUsers = json_decode($user_id, true);
 
-        if ($decodedTransactions === null) {
-            return $this->respond('Error decoding JSON');
-        }
-
-        if (!$decodedTransactions) {
-            return $this->respond("Tidak ada rekomendasi produk.");
+        if (!$decodedUsers) {
+            return $this->respond([]);
         } else {
-            $products = array();
-            $curl = curl_init(sprintf('http://localhost:8080/users/%u',$user_id));
+            $curl = curl_init('http://localhost:8080/transactions');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $age = curl_exec($curl);
+            $transaction = curl_exec($curl);
             curl_close($curl);
             
-            $decodedAge = json_decode($age, true);
-
-            if ($decodedAge === null) {
-                return $this->respond('Error decoding JSON');
-            } else {
-                foreach($decodedTransactions as $transaction) :
-                    $curl = curl_init(sprintf('http://localhost:8080/users/%u',$transaction['user_id']));
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    $age = curl_exec($curl);
-                    curl_close($curl);
-                    
-                    $decodedProductAge = json_decode($age, true);
-
-                    if ($decodedProductAge === null) {
-                        return $this->respond('Error decoding JSON');
-                    } else {
-                        if (($decodedProductAge)[0]['age'] == $decodedAge[0]['age']) {
-                            array_push($products,$transaction['product_id']);
-                        }
-                    }
+            $decodedTransactions = json_decode($transaction, true);
+    
+            if (!$decodedTransactions) {
+                $emptyTransaction = array();
+                foreach($decodedUsers as $user) :
+                    array_push($emptyTransaction, "0");
                 endforeach;
-                $maxProduct = 0;
-                $countTotal = 0;
-                foreach($products as $product) :
-                    $count = 0;
-                    foreach($products as $product2) :
-                        if ($product == $product2) {
-                            $count += 1;
+                return $this->respond($emptyTransaction);
+            } else {
+                $rekomen = array();
+                
+                foreach($decodedUsers as $user) :
+                    $history = array();
+                    foreach($decodedTransactions as $transaction) :
+                        if ($user['id'] == $transaction['user_id']) {
+                            array_push($history,$transaction['product_id']);
                         }
                     endforeach;
-                    if ($count > $countTotal) {
-                        $countTotal = $count;
-                        $maxProduct = $product;
-                    }
+                    $maxProduct = "0";
+                    $countTotal = 0;
+                    foreach($history as $i) :
+                        $count = 0;
+                        foreach($history as $j) :
+                            if ($i == $j) {
+                                $count += 1;
+                            }
+                        endforeach;
+                        if ($count > $countTotal) {
+                            $countTotal = $count;
+                            $maxProduct = $i;
+                        }
+                    endforeach;
+                    array_push($rekomen,$maxProduct);
                 endforeach;
-
-                if ($maxProduct != 0) {
-                    return $this->respond(model(ProductsModel::class)->findById($maxProduct)['nama']);
-                } else {
-                    return $this->respond("Tidak ada rekomendasi produk.");
-                }
+                return $this->respond($rekomen);
             }
         }
-        
     }
 }
