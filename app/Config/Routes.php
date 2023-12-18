@@ -5,7 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Products::index');
+$routes->get('/', 'Login::index');
 $routes->get('/products', 'Products::index');
 
 $routes->get('/edit/(:segment)', 'Products::edit/$1');
@@ -26,3 +26,5 @@ $routes->get('/api/products/(:any)/(:any)', 'Api\Products::index/$1/$2');
 $routes->get('/api/share/(:any)', 'Core::index/$1');
 $routes->get('/rekomendasi', 'Core::rekomendasi');
 $routes->put('products/update/(:num)', 'Products::update/$1');
+
+$routes->post('/logout', 'Login::logout');

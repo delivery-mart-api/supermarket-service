@@ -6,13 +6,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <!-- <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?= base_url('/'); ?>">Home</a>
-        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="<?= base_url('/orders'); ?>">Orders</a>
         </li>
       </ul>
+    </div>
+    <div class="d-flex justify-content-end">
+        <form class="form-inline my-2 my-lg-0" action="/logout" method="POST">
+            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+        </form>
     </div>
   </div>
 </nav>
