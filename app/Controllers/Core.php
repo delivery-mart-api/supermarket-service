@@ -20,7 +20,6 @@ class Core extends ResourceController
             return 0;
         }
     }
-
     public function rekomendasi() {
         $curl = curl_init('http://localhost:8080/transaction/indoapril/password');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

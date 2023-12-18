@@ -19,6 +19,10 @@ class CreateProductsTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 100,
             ],
+            'kategori' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+            ],
             'harga' => [
                 'type' => 'INT',
                 'constraint' => 8,

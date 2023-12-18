@@ -8,7 +8,7 @@ class ProductsModel extends Model
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'nama', 'harga', 'stok', 'berat', 'gambar', 'created_by', 'created_at', 'updated_by', 'updated_at'
+        'nama', 'kategori', 'harga', 'stok', 'berat', 'gambar', 'created_by', 'created_at', 'updated_by', 'updated_at'
     ];
     // protected $returnType = 'App\Entities\Products';
     protected $useTimestamps = true;
@@ -22,4 +22,12 @@ class ProductsModel extends Model
         }
         return false;
     }
+
+    public function getProduct($id = false){
+        if($id == false) {
+            return $this->findAll();
+        }
+        return $this->where(['id' => $id])->first();
+    }
+
 }
