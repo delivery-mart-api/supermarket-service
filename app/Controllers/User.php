@@ -23,7 +23,7 @@ class User extends BaseController
             'password_confirm' => 'matches[password]',
         ];
 
-        if(! $this->validate($rules)){
+        if(!$this->validate($rules)){
             session()->setFlashData('Error', 'Registrasi Gagal!');
             return redirect()->to('/register')->withInput();
         } else{

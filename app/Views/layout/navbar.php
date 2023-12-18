@@ -14,5 +14,10 @@
         </li>
       </ul>
     </div>
+    <div class="d-flex justify-content-end">
+        <form class="form-inline my-2 my-lg-0" action="/logout" method="POST">
+            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </div>
   </div>
 </nav>

@@ -27,10 +27,6 @@ class CreateProductsTable extends Migration
                 'type' => 'INT',
                 'constraint' => 8,
             ],
-            'stok' => [
-                'type' => 'INT',
-                'constraint' => 5,
-            ],
             'berat' => [
                 'type' => 'INT',
                 'constraint' => 5,

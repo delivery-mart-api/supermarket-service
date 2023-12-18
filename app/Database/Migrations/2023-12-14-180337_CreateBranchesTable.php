@@ -27,6 +27,9 @@ class CreateBranchesTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
+            'created_at' => [
+                'type' => 'DATETIME',
+            ],
         ]);
 
         $this->forge->addKey('id', true);

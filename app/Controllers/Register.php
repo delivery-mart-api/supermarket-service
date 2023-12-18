@@ -9,6 +9,6 @@ class Register extends BaseController
         if (session()->get('num_user') == '') {
             return redirect()->to('/login');
         }
-        return view('welcome_message');
+        return view('register');
     }
 }

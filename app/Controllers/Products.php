@@ -64,29 +64,18 @@ class Products extends BaseController
             // $validation = \Config\Services::validation()
             // return redirect()->to(base_url('/'))->withInput('validation', $validation);
         }
-
-        // ambil gambar
-        // $fileGambar = $this->request->getFile('gambar');
-        
-        // if($fileGambar->getError() == 4) {
-        //     $namaGambar = 'default.png';
-        // } else {
-        //     $namaGambar = $fileGambar->getRandomName();
-            
-        //     $fileGambar->move('img', $namaGambar);
-        // }
         
         $kategori = $this->request->getVar('kategori');
         if($kategori == 'Minuman') {
-            $namaGambar = 'beverages.png';
+            $namaGambar = 'https://utfs.io/f/36fde6e6-d4f6-42f0-bf83-562d4bffb10f-chvn70.png';
         } else if ($kategori == 'Daging') {
-            $namaGambar = 'meat.png';
+            $namaGambar = 'https://utfs.io/f/ee0df9c4-093f-45a4-9b6b-d78d2c5a337a-1zqvf.png';
         } else if ($kategori == 'Sayuran') {
-            $namaGambar = 'vegetable.png';
+            $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
         } else if ($kategori == 'Buah') {
-            $namaGambar = 'fruits.png';
+            $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
         } else {
-            $namaGambar = 'toiletries.png';
+            $namaGambar = 'https://utfs.io/f/819422c2-88fa-4d95-8ba2-a464ae6de319-s71w0e.png';
         }
 
 
@@ -94,7 +83,7 @@ class Products extends BaseController
             'nama' => $this->request->getVar('nama'),
             'kategori' => $this->request->getVar('kategori'),
             'harga' => $this->request->getVar('harga'),
-            'stok' => $this->request->getVar('stok'),
+            // 'stok' => $this->request->getVar('stok'),
             'berat' => $this->request->getVar('berat'),
             'gambar' => $namaGambar,
         ]);
@@ -107,11 +96,6 @@ class Products extends BaseController
     public function delete($id)
     {
         $product = $this->productsModel->find($id);
-
-        // if($product['gambar'] != 'default.png'){
-        //     // hapus gambar
-        //     unlink('img/' . $product['gambar']);
-        // }
         $this->productsModel->delete($id);
         session()->setFlashdata('pesan','Produk berhasil dihapus.');
         return redirect()->to(base_url('/'));
@@ -152,13 +136,6 @@ class Products extends BaseController
                     'is_natural' => '{field} produk harus bernilai positif.'
                 ]
             ],
-            'stok' => [
-                'rules' => 'required|is_natural',
-                'errors' => [
-                    'required' => '{field} produk harus diisi.',
-                    'is_natural' => '{field} produk harus bernilai positif.'
-                ]
-            ],
             'berat' => [
                 'rules' => 'required|is_natural_no_zero',
                 'errors' => [
@@ -172,27 +149,17 @@ class Products extends BaseController
             // return redirect()->to(base_url('edit/'.$id))->withInput();
         }
 
-        // $fileGambar = $this->request->getFile('gambar');
-
-        // if($fileGambar->getError() == 4) {
-        //     $namaGambar = $this->request->getVar('gambarLama');
-        // } else {
-        //     $namaGambar = $fileGambar->getRandomName();
-        //     $fileGambar->move('img', $namaGambar);
-        //     unlink('img/' . $this->request->getVar('gambarLama'));
-        // }
-
         $kategori = $this->request->getVar('kategori');
         if($kategori == 'Minuman') {
-            $namaGambar = 'beverages.png';
+            $namaGambar = 'https://utfs.io/f/36fde6e6-d4f6-42f0-bf83-562d4bffb10f-chvn70.png';
         } else if ($kategori == 'Daging') {
-            $namaGambar = 'meat.png';
+            $namaGambar = 'https://utfs.io/f/ee0df9c4-093f-45a4-9b6b-d78d2c5a337a-1zqvf.png';
         } else if ($kategori == 'Sayuran') {
-            $namaGambar = 'vegetable.png';
+            $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
         } else if ($kategori == 'Buah') {
-            $namaGambar = 'fruits.png';
+            $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
         } else {
-            $namaGambar = 'toiletries.png';
+            $namaGambar = 'https://utfs.io/f/819422c2-88fa-4d95-8ba2-a464ae6de319-s71w0e.png';
         }
 
         $this->productsModel->save([
@@ -200,7 +167,7 @@ class Products extends BaseController
             'nama' => $this->request->getVar('nama'),
             'kategori' => $this->request->getVar('kategori'),
             'harga' => $this->request->getVar('harga'),
-            'stok' => $this->request->getVar('stok'),
+            // 'stok' => $this->request->getVar('stok'),
             'berat' => $this->request->getVar('berat'),
             'gambar' => $namaGambar,
         ]);

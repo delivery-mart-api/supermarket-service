@@ -25,13 +25,13 @@ class CreateBranchProductStockTable extends Migration
                 'constraint' => 5,
                 'unsigned' => true,
             ],
-            'stock_quantity' => [
+            'stok' => [
                 'type' => 'INT',
             ],
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('branch_id', 'branches', 'id');
+        $this->forge->addForeignKey('branch_id', 'user', 'id');
         $this->forge->addForeignKey('product_id', 'products', 'id');
         $this->forge->createTable('branch_product_stock');
     }
