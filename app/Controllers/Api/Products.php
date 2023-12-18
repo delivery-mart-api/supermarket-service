@@ -12,9 +12,13 @@ class Products extends ResourceController
         $this->validation = \Config\Services::validation();
     }
 
-    public function index()
+    public function index($seg1 = null, $seg2 = null)
     {
-        return $this->respond($this->model->findAll());
+        if ($seg1 == "indoapril" and $seg2 == "password") {
+            return $this->respond($this->model->findAll());
+        } else {
+            return $this->respond('Wrong Authentication', 401);
+        }
     }
 
     // public function create()

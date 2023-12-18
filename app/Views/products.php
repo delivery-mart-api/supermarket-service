@@ -60,6 +60,7 @@
                                             <input required type="number" class="form-control" id="tambah-berat" name="berat" />
                                         </div>
                                     </div>
+                                    <div class="row my-2">
                                     <!-- <div class="row my-2">
                                         <div class="col">
                                             <label for="gambar" class="form-label">Gambar Produk</label>
@@ -70,6 +71,7 @@
                                                 <input type="file" class="form-control" id="gambar" name="gambar" onchange="previewImg()">                                            
                                             </div>
                                         </div>
+                                    </div>                                
                                     </div>                                 -->
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success">Add Product</button>
@@ -177,7 +179,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
         $('button[data-bs-target^="#editModal"]').on('click', function() {
@@ -193,5 +194,4 @@
         });
     });
 </script>
-
 <?= $this->endSection(); ?>
