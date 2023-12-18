@@ -5,7 +5,7 @@
     <h2>Edit Product</h2>
 
     <div>
-        <img src="<?= base_url('img/' . $product['gambar']); ?>" alt="" class="w-25 img-preview">
+        <img src="<?= ($product['gambar']); ?>" alt="" class="w-25 img-preview">
     </div>
 
     <form action="<?= base_url('products/update/' . $product['id']); ?>" method="post">

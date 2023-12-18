@@ -10,6 +10,6 @@ class Home extends BaseController
         if (session()->get('num_user') == '') {
             return redirect()->to('/login');
         }
-        return view('welcome_message');
+        return view('product');
     }
 }

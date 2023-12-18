@@ -24,14 +24,64 @@ class ProductsModel extends Model
     }
 
     public function getProduct($id = false){
+        $user = (session()->get('num_user'));
+        $branchId = $user['id'];
         if($id == false) {
-            return $this->findAll();
+            // Query untuk mendapatkan produk berdasarkan cabang yang sedang login
+            $query = $this->db->table('branch_product_stock')
+                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
+                            ->join('products', 'products.id = branch_product_stock.product_id')
+                            ->where('branch_product_stock.branch_id', $branchId)
+                            ->get();
+
+            return $query->getResultArray();
         }
-        return $this->where(['id' => $id])->first();
+            // Query untuk mendapatkan produk berdasarkan cabang yang sedang login
+            $query = $this->db->table('branch_product_stock')
+                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
+                            ->join('products', 'products.id = branch_product_stock.product_id')
+                            ->where('branch_product_stock.branch_id', $branchId)
+                            ->where('branch_product_stock.product_id', $id)
+                            ->get();
+    
+            return $query->getResultArray()['0'];
+    }
+
+    public function getApiProducts($username) {
+        if ($username) {
+            $query = $this->db->table('branch_product_stock')
+                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
+                            ->join('products', 'products.id = branch_product_stock.product_id')
+                            ->join('user', 'user.id = branch_product_stock.branch_id')
+                            ->where('user.username', $username)
+                            ->get();
+
+            return $query->getResultArray();
+         }
     }
 
     public function getProductById($productId)
     {
         return $this->where('id', $productId)->first();
+    }
+    public function getUserByUsername($username)
+    {
+        return $this->db->table('user')
+                    ->where('username', $username)
+                    ->get()
+                    ->getRowArray();
+    }
+
+    public function getBranchById($branch_id)
+    {
+        return $this->db->table('branch_product_stock')
+                    ->where('branch_id', $branch_id)
+                    ->get()
+                    ->getRowArray();
+    }
+
+    public function insertBranchProductStock($data)
+    {
+    $this->db->table('branch_product_stock')->insert($data);
     }
 }

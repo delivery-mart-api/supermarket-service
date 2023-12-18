@@ -18,19 +18,21 @@ class User extends BaseController
         }
 
         $rules = [
+            'name' => 'required|min_length[3]|max_length[50]',
             'username' => 'required|min_length[3]|max_length[30]|is_unique[user.username]',
             'password' => 'required|min_length[8]',
-            'password_confirm' => 'matches[password]',
         ];
 
-        if(! $this->validate($rules)){
+        if(!$this->validate($rules)){
             session()->setFlashData('Error', 'Registrasi Gagal!');
             return redirect()->to('/register')->withInput();
         } else{
             $model = new UserModel();
             $data = [
+                'name' => $this->request->getPost('name'),
                 'username' => $this->request->getPost('username'),
                 'password' => $this->request->getPost('password'),
+                'role' => 'branch',
             ];
 
             $user_id = $model->insert($data);

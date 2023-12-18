@@ -4,9 +4,8 @@
 <div class="container" style="min-height: 92vh;">
     <div class="row" style="min-height: 92vh;">
         <div class="col-10" style="min-height: 92vh;">
-            <h2 class="mt-4">Selamat datang, <?= session()->get('num_user')['name']; ?>!</h2>
             <div class="d-flex justify-content-between align-items-center my-4">
-                <h4>Product Management <?= session()->get('num_user')['name']; ?></h4>
+                <h4>Product Management</h4>
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
                     Add Product
                 </button>
@@ -52,6 +51,12 @@
                                     </div>
                                     <div class="row my-2">
                                         <div class="col">
+                                            <label for="tambah-stok" class="form-label">Jumlah Stok</label>
+                                            <input required type="number" class="form-control" id="tambah-stok" name="stok" />
+                                        </div>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col">
                                             <label for="tambah-berat" class="form-label">Berat Produk</label>
                                             <input required type="number" class="form-control" id="tambah-berat" name="berat" />
                                         </div>
@@ -90,6 +95,46 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
+
+            <!-- data produk -->
+            <!-- <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a short card.</p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    </div>
+                </div>
+                </div> -->
             
             <table class="table mt-4 mx-2 table-striped">
                 <thead>
@@ -97,6 +142,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Gambar</th>
                         <th scope="col">Nama Produk</th>
+                        <th scope="col">Stok</th>
                         <th scope="col">Berat</th>
                         <th scope="col">Harga</th>
                         <th scope="col"></th>
@@ -110,6 +156,7 @@
                         <th class="pt-3" scope="row"><?= $i++; ?></th>
                         <td><img src="<?= $product['gambar']; ?>" alt="gambar produk" class="product-image"></td>
                         <td class="pt-3"><?= $product['nama']; ?></td>
+                        <td class="pt-3"><?= $product['stok']; ?></td>
                         <td class="pt-3"><?= $product['berat']; ?></td>
                         <td class="pt-3"><?= $product['harga']; ?></td>
                         <td>
@@ -142,6 +189,7 @@
             // Isi formulir dengan data produk berdasarkan ID
             $(modalId + ' #edit-nama').val('<?= $product['nama']; ?>');
             $(modalId + ' #edit-harga').val('<?= $product['harga']; ?>');
+            $(modalId + ' #edit-stok').val('<?= $product['stok']; ?>');
             $(modalId + ' #edit-berat').val('<?= $product['berat']; ?>');
             $(modalId + ' #gambar').val(''); // Bersihkan input file
         });
