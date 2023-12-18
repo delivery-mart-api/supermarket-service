@@ -32,7 +32,7 @@ class Core extends ResourceController
         if (!$decodedUsers) {
             return $this->respond([]);
         } else {
-            $curl = curl_init('http://localhost:8080/transactions');
+            $curl = curl_init('http://localhost:8080/transaction/indoapril/password');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             $transaction = curl_exec($curl);
             curl_close($curl);
