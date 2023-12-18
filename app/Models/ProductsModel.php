@@ -29,7 +29,7 @@ class ProductsModel extends Model
         if($id == false) {
             // Query untuk mendapatkan produk berdasarkan cabang yang sedang login
             $query = $this->db->table('branch_product_stock')
-                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stock_quantity, products.berat, products.gambar')
+                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
                             ->join('products', 'products.id = branch_product_stock.product_id')
                             ->where('branch_product_stock.branch_id', $branchId)
                             ->get();
@@ -38,7 +38,7 @@ class ProductsModel extends Model
         }
             // Query untuk mendapatkan produk berdasarkan cabang yang sedang login
             $query = $this->db->table('branch_product_stock')
-                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stock_quantity, products.berat, products.gambar')
+                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
                             ->join('products', 'products.id = branch_product_stock.product_id')
                             ->where('branch_product_stock.branch_id', $branchId)
                             ->where('branch_product_stock.product_id', $id)
@@ -50,7 +50,7 @@ class ProductsModel extends Model
     public function getApiProducts($username) {
         if ($username) {
             $query = $this->db->table('branch_product_stock')
-                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stock_quantity, products.berat, products.gambar')
+                            ->select('products.id, products.nama, products.kategori, products.harga, branch_product_stock.stok, products.berat, products.gambar')
                             ->join('products', 'products.id = branch_product_stock.product_id')
                             ->join('user', 'user.id = branch_product_stock.branch_id')
                             ->where('user.username', $username)
@@ -67,4 +67,17 @@ class ProductsModel extends Model
                     ->get()
                     ->getRowArray();
     }
+
+    public function getBranchById($branch_id)
+    {
+        return $this->db->table('branch_product_stock')
+                    ->where('branch_id', $branch_id)
+                    ->get()
+                    ->getRowArray();
+    }
+
+    public function insertBranchProductStock($data)
+{
+    $this->db->table('branch_product_stock')->insert($data);
+}
 }

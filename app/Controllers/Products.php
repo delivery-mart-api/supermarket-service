@@ -13,13 +13,22 @@ class Products extends BaseController
 
     public function index()
     {
+        $allProducts = $this->productsModel->findAll();
+        if(session()->get('num_user')['role'] == 'admin'){
+            $products = $allProducts;
+        }
         $products = $this->productsModel->getProduct();
+        
         $data = [
             'title' => 'Home | Supermarket System',
+            'allProducts' => $allProducts,
             'products' => $products,
             'validation' => \Config\Services::validate()
         ];
-        return view('products', $data);
+        if(session()->get('num_user')['role'] == 'admin'){
+            return view('/admin/products', $data);
+        }
+        return view('/branch/products', $data);
     }
 
     public function save()
@@ -78,15 +87,15 @@ class Products extends BaseController
             $namaGambar = 'https://utfs.io/f/819422c2-88fa-4d95-8ba2-a464ae6de319-s71w0e.png';
         }
 
-
-        $this->productsModel->save([
-            'nama' => $this->request->getVar('nama'),
-            'kategori' => $this->request->getVar('kategori'),
-            'harga' => $this->request->getVar('harga'),
-            // 'stok' => $this->request->getVar('stok'),
-            'berat' => $this->request->getVar('berat'),
-            'gambar' => $namaGambar,
-        ]);
+        if(session()->get('num_user')['role'] == 'admin'){
+            $this->productsModel->save([
+                'nama' => $this->request->getVar('nama'),
+                'kategori' => $this->request->getVar('kategori'),
+                'harga' => $this->request->getVar('harga'),
+                'berat' => $this->request->getVar('berat'),
+                'gambar' => $namaGambar,
+            ]);
+        }
         
         session()->setFlashdata('pesan','Produk berhasil ditambahkan.');
 
@@ -108,7 +117,7 @@ class Products extends BaseController
             'product' => $this->productsModel->getProduct($id),
             'validation' => \Config\Services::validation()
         ];
-        return view('edit', $data);
+        return view('admin/edit', $data);
     }
 
     public function update($id)
@@ -161,16 +170,21 @@ class Products extends BaseController
         } else {
             $namaGambar = 'https://utfs.io/f/819422c2-88fa-4d95-8ba2-a464ae6de319-s71w0e.png';
         }
-
-        $this->productsModel->save([
-            'id' => $id,
-            'nama' => $this->request->getVar('nama'),
-            'kategori' => $this->request->getVar('kategori'),
-            'harga' => $this->request->getVar('harga'),
-            // 'stok' => $this->request->getVar('stok'),
-            'berat' => $this->request->getVar('berat'),
-            'gambar' => $namaGambar,
-        ]);
+        if(session()->get('num_user')['role'] == 'admin'){
+            $this->productsModel->save([
+                'id' => $id,
+                'nama' => $this->request->getVar('nama'),
+                'kategori' => $this->request->getVar('kategori'),
+                'harga' => $this->request->getVar('harga'),
+                'berat' => $this->request->getVar('berat'),
+                'gambar' => $namaGambar,
+            ]);
+        } else {
+            if($this->productsModel->getBranchById(session()->get('num_user')['id']) && $this->productsModel->findById($id))
+                $this->productsModel->insertBranchProductStock([
+                
+                ])
+        }
             session()->setFlashdata('pesan','Produk berhasil diubah.');
 
         return redirect()->to(base_url('/'));

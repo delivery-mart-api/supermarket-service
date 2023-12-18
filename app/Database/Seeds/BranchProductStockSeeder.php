@@ -10,34 +10,34 @@ class BranchProductStockSeeder extends Seeder
     {
         $data = [
             [
-                'branch_id' => 1,
+                'branch_id' => 2,
                 'product_id' => 3,
-                'stock_quantity' => 25,
+                'stok' => 25,
             ],
             [
-                'branch_id' => 1,
+                'branch_id' => 2,
                 'product_id' => 4,
-                'stock_quantity' => 18,
+                'stok' => 18,
             ],
             [
                 'branch_id' => 2,
                 'product_id' => 2,
-                'stock_quantity' => 22,
+                'stok' => 22,
             ],
             [
-                'branch_id' => 2,
+                'branch_id' => 3,
                 'product_id' => 3,
-                'stock_quantity' => 30,
+                'stok' => 30,
             ],
             [
-                'branch_id' => 2,
+                'branch_id' => 3,
                 'product_id' => 1,
-                'stock_quantity' => 15,
+                'stok' => 15,
             ],
             [
-                'branch_id' => 2,
+                'branch_id' => 3,
                 'product_id' => 4,
-                'stock_quantity' => 12,
+                'stok' => 12,
             ],
 
         ];

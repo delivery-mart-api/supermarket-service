@@ -4,6 +4,7 @@
 <div class="container" style="min-height: 92vh;">
     <div class="row" style="min-height: 92vh;">
         <div class="col-10" style="min-height: 92vh;">
+            <h2 class="mt-4">Selamat datang, <?= session()->get('num_user')['name']; ?>!</h2>
             <div class="d-flex justify-content-between align-items-center my-4">
                 <h4>Product Management</h4>
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -156,7 +157,7 @@
                         <th class="pt-3" scope="row"><?= $i++; ?></th>
                         <td><img src="<?= $product['gambar']; ?>" alt="gambar produk" class="product-image"></td>
                         <td class="pt-3"><?= $product['nama']; ?></td>
-                        <td class="pt-3"><?= $product['stock_quantity']; ?></td>
+                        <td class="pt-3"><?= $product['stok']; ?></td>
                         <td class="pt-3"><?= $product['berat']; ?></td>
                         <td class="pt-3"><?= $product['harga']; ?></td>
                         <td>
@@ -189,7 +190,7 @@
             // Isi formulir dengan data produk berdasarkan ID
             $(modalId + ' #edit-nama').val('<?= $product['nama']; ?>');
             $(modalId + ' #edit-harga').val('<?= $product['harga']; ?>');
-            $(modalId + ' #edit-stok').val('<?= $product['stock_quantity']; ?>');
+            $(modalId + ' #edit-stok').val('<?= $product['stok']; ?>');
             $(modalId + ' #edit-berat').val('<?= $product['berat']; ?>');
             $(modalId + ' #gambar').val(''); // Bersihkan input file
         });

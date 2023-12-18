@@ -62,7 +62,7 @@
                         <?= session('validation')->getError('stok'); ?>
                     </div>
                 <?php else: ?>
-                        <input type="number" class="form-control" id="edit-stok" name="stok" value="<?= $product['stock_quantity']; ?>"/>
+                        <input type="number" class="form-control" id="edit-stok" name="stok" value="<?= $product['stok']; ?>"/>
                 <?php endif; ?>
             </div>
         </div>
