@@ -1,67 +1,84 @@
-# CodeIgniter 4 Application Starter
+# Supermarket System
 
-## What is CodeIgniter?
+Sistem Supermarket adalah aplikasi web berbasis PHP yang dirancang untuk manajemen dan operasional supermarket. Berikut adalah panduan singkat untuk menggunakan sistem ini.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Persyaratan Sistem
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Pastikan sistem memenuhi persyaratan berikut sebelum menggunakan aplikasi:
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- PHP versi 7.3 atau lebih tinggi.
+- Web server (disarankan menggunakan Apache atau Nginx).
+- MySQL database.
 
-The user guide corresponding to the latest version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+## Instalasi
 
-## Installation & updates
+1. Clone repositori dari [GitHub](https://github.com/delivery-mart-api/supermarket-service) ke direktori lokal Anda.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+    ```bash
+    git clone https://github.com/delivery-mart-api/supermarket-service.git
+    ```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+2. Buka terminal dan pindah ke direktori proyek.
 
-## Setup
+    ```bash
+    cd supermarket-service
+    ```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+3. Salin file `.env.example` menjadi `.env`.
 
-## Important Change with index.php
+    ```bash
+    cp .env.example .env
+    ```
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+4. Buka file `.env` menggunakan editor teks dan sesuaikan pengaturan berikut sesuai dengan konfigurasi database Anda.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+    ```env
+    CI_ENVIRONMENT = production
 
-**Please** read the user guide for a better explanation of how CI4 works!
+    database.default.hostname = 127.0.0.1
+    database.default.database = supermarket
+    database.default.username = root
+    database.default.password =
+    database.default.DBDriver = MySQLi
+    ```
 
-## Repository Management
+5. Jalankan migrasi database untuk membuat skema tabel.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+    ```bash
+    php spark migrate
+    ```
+6. Jalankan seeder database untuk mengisi tabel.
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+    ```bash
+    php spark db:seed ProductsSeeder
+    php spark db:seed UserSeeder
+    php spark db:seed BranchProductStockSeeder
+    ```
 
-## Server Requirements
+7. Jalankan aplikasi pada port 8081.
 
-PHP version 7.4 or higher is required, with the following extensions installed:
+    ```bash
+    php spark serve --port 8081
+    ```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## Mengakses Aplikasi
 
-> **Warning**
-> The end of life date for PHP 7.4 was November 28, 2022. If you are
-> still using PHP 7.4, you should upgrade immediately. The end of life date
-> for PHP 8.0 will be November 26, 2023.
+Buka browser web Anda dan akses aplikasi melalui [http://localhost:8081](http://localhost:8081). Pastikan web server Anda berjalan dengan benar.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## Masuk ke Aplikasi
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Gunakan kredensial yang sesuai untuk masuk ke aplikasi:
+
+Login sebagai admin : 
+- **Username**: admin
+- **Password**: password
+
+Login sebagai branch : 
+- **Username**: indoapril
+- **Password**: password
+
+## Panduan Pengguna
+
+- **Admin Role**: Admin dapat mengelola detail produk dan menambahkan cabang.
+
+- **Branch Role**: Branch dapat melihat dan mengelola stok produk di cabang mereka serta melihat order dan profit share yang terkoneksi dengan transaksi pada delivery service.
