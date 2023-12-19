@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="item-center justify-content-lg-center max-height: 100%">
-        <div class="text-center">
+        <div class="text-center mt-5">
             <h1>Welcome to Indoapril!</h1>
         </div>
         <div class="container mt-5 col-5">

@@ -11,6 +11,7 @@ $routes->get('/products', 'Products::index');
 $routes->get('admin/edit/(:segment)', 'Products::edit/$1');
 
 $routes->get('/orders', 'Orders::index');
+$routes->get('/branches', 'Branch::index');
 
 $routes->get('/register', 'Register::index');
 $routes->post('/register', 'User::create');
