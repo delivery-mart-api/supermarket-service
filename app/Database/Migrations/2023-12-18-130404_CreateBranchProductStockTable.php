@@ -31,8 +31,8 @@ class CreateBranchProductStockTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('branch_id', 'user', 'id');
-        $this->forge->addForeignKey('product_id', 'products', 'id');
+        $this->forge->addForeignKey('branch_id', 'user', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('product_id', 'products', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('branch_product_stock');
     }
 

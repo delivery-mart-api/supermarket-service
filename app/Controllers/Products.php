@@ -90,7 +90,7 @@ class Products extends BaseController
         } else if ($kategori == 'Sayuran') {
             $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
         } else if ($kategori == 'Buah') {
-            $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
+            $namaGambar = 'https://utfs.io/f/b05b0e03-3ea8-4d4f-82b8-332c89dc2dc7-kxp3xd.png';
         } else {
             $namaGambar = 'https://utfs.io/f/819422c2-88fa-4d95-8ba2-a464ae6de319-s71w0e.png';
         }
@@ -197,7 +197,7 @@ class Products extends BaseController
             } else if ($kategori == 'Sayuran') {
                 $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
             } else if ($kategori == 'Buah') {
-                $namaGambar = 'https://utfs.io/f/337cdfc5-eddf-46bf-8af1-241a2ad6dba3-lwdt0h.png';
+                $namaGambar = 'https://utfs.io/f/b05b0e03-3ea8-4d4f-82b8-332c89dc2dc7-kxp3xd.png';
             } else {
                 $namaGambar = 'https://utfs.io/f/819422c2-88fa-4d95-8ba2-a464ae6de319-s71w0e.png';
             }
@@ -209,6 +209,9 @@ class Products extends BaseController
                 'berat' => $this->request->getVar('berat'),
                 'gambar' => $namaGambar,
             ]);
+
+            session()->setFlashdata('pesan','Produk berhasil diubah.');
+
         } 
         else {
 
