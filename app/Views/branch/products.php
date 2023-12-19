@@ -49,7 +49,7 @@
                                 Edit Product
                             </a>
                             </div>
-                            <div class="modal fade modal-xl" id="editModal<?= $product['id']; ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $product['id']; ?>" aria-hidden="true">
+                            <div class="modal fade" id="editModal<?= $product['id']; ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $product['id']; ?>" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
