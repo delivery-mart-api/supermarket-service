@@ -11,35 +11,29 @@ class BranchProductStockSeeder extends Seeder
         $data = [
             [
                 'branch_id' => 2,
-                'product_id' => 3,
+                'product_id' => 1,
                 'stok' => 25,
             ],
             [
                 'branch_id' => 2,
-                'product_id' => 4,
+                'product_id' => 2,
                 'stok' => 18,
             ],
             [
                 'branch_id' => 2,
-                'product_id' => 2,
+                'product_id' => 3,
                 'stok' => 22,
             ],
             [
-                'branch_id' => 3,
-                'product_id' => 3,
+                'branch_id' => 2,
+                'product_id' => 4,
                 'stok' => 30,
             ],
             [
-                'branch_id' => 3,
-                'product_id' => 1,
+                'branch_id' => 2,
+                'product_id' => 5,
                 'stok' => 15,
             ],
-            [
-                'branch_id' => 3,
-                'product_id' => 4,
-                'stok' => 12,
-            ],
-
         ];
         
         $this->db->table('branch_product_stock')->insertBatch($data);
