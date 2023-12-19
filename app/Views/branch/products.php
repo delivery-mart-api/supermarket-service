@@ -31,7 +31,6 @@
                         <th scope="col">Berat</th>
                         <th scope="col">Harga</th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,13 +75,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </td>
-                        <td>
-                            <form action="/products/<?= $product['id'] ;?>" method="post" class="d-inline">
-                                <?= csrf_field(); ?>
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus <?= $product['nama'];?>?')">Delete Product</button>
-                            </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>
