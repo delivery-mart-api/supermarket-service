@@ -13,7 +13,7 @@ class BranchProductStockModel extends Model
 
     public function getStock($branchId, $productId)
     {
-        return $this->where(['branch_id' => $branchId, 'product_id' => $productId])->first();
+        return $this->where(['branch_id' => $branchId, 'product_id' => $productId])->first()['stok'] ?? 0;
     }
 
     public function saveProductToBranch($branchId, $productId)

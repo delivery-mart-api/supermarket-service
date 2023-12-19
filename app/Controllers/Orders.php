@@ -1,11 +1,18 @@
 <?php namespace App\Controllers;
 
 use App\Models\ProductsModel;
+use App\Models\BranchProductStockModel;
 
 class Orders extends BaseController
 {
+    protected $branchProductStockModel;
+    public function __construct()
+    {
+        $this->branchProductStockModel = new BranchProductStockModel();
+    }
     public function index()
     {
+        $currentBranchId = session()->get('num_user')['id'];
         $currentUsername = session()->get('num_user')['username'];
         $currentPassword = session()->get('num_user')['password'];
         $client = \Config\Services::curlrequest();
@@ -20,13 +27,25 @@ class Orders extends BaseController
                 if ($order['supermarket_username'] == session()->get('num_user')['username']) {
                     $productId = $order['product_id'];
                     $productInfo = $productsModel->getProductById($productId);
-                    
+
+                    $newStock = $order['remainingStock'];
+
+                        // Data ditemukan, lakukan update
+                        $this->branchProductStockModel
+                            ->where(['branch_id' => $currentBranchId, 'product_id' => $productId])
+                            ->set('stok', $newStock)
+                            ->update();
+
+                    $orderIdSet[$order['id']] = true;
+
+
                     $filteredOrder[] = [
                         'order_id' => $order['id'],
                         'product_name' => $productInfo['nama'], 
                         'quantity' => $order['quantity'],
                         'address' => $order['address'],
-                        'created_at' => $order['created_at']
+                        'created_at' => $order['created_at'],
+                        'stok' => $order['remainingStock']
                     ];
                 }
             }
