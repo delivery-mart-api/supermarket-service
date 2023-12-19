@@ -5,6 +5,14 @@ use App\Models\ProductsModel;
 
 class Core extends ResourceController
 {
+    protected $productsModel;
+
+    public function __construct()
+    {
+        $this->productsModel = new ProductsModel();
+        $this->validation = \Config\Services::validation();
+    }
+
     public function index($id = null){
         $products = model(ProductsModel::class)->findById($id);
         if ($products)  {
@@ -20,55 +28,24 @@ class Core extends ResourceController
             return 0;
         }
     }
-    public function rekomendasi() {
-        $curl = curl_init('http://localhost:8080/transaction/indoapril/password');
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $transaction = curl_exec($curl);
-        curl_close($curl);
-        
-        $decodedTransactions = json_decode($transaction, true);
+    public function rekomendasi($seg1 = null, $seg2 = null) {
+        $user = $this->productsModel->getUser($seg1, $seg2);
 
-        if (!$decodedTransactions) {
-            return $this->respond([]);
-        } else {
-            $users = array();
-            foreach($decodedTransactions as $i) :
-                $check = true;
-                foreach($users as $j) :
-                    if ($i['user_id'] == $j) {
-                        $check = false;
-                    }
-                endforeach;
-                if ($check) {
-                    array_push($users, $i['user_id']);
-                }
-            endforeach;
-            $rekomen = array();
+        if ($user) {
+            // Jika username ditemukan dan password cocok
+            $products = $this->productsModel->findAll();
+            $randomIndex = array_rand($products, 3);
+
+            $randomProducts = [];
+
+            foreach ($randomIndex as $index) {
+                $randomProducts[] = $products[$index];
+            }
             
-            foreach($users as $user) :
-                $history = array();
-                foreach($decodedTransactions as $transaction) :
-                    if ($user == $transaction['user_id']) {
-                        array_push($history,$transaction['product_id']);
-                    }
-                endforeach;
-                $maxProduct = "0";
-                $countTotal = 0;
-                foreach($history as $i) :
-                    $count = 0;
-                    foreach($history as $j) :
-                        if ($i == $j) {
-                            $count += 1;
-                        }
-                    endforeach;
-                    if ($count > $countTotal) {
-                        $countTotal = $count;
-                        $maxProduct = $i;
-                    }
-                endforeach;
-                $rekomen[$user] = $maxProduct;
-            endforeach;
-            return $this->respond($rekomen);
+            return $this->respond($randomProducts);
+        } else {
+            // Jika username tidak ditemukan atau password tidak cocok
+            return $this->respond('Wrong Authentication', 401);
         }
     }
 }

@@ -25,7 +25,7 @@ $routes->delete('products/(:num)', 'Products::delete/$1');
 $routes->get('/api/products/(:any)/(:any)', 'Api\Products::index/$1/$2');
 
 $routes->get('/api/share/(:any)', 'Core::index/$1');
-$routes->get('/rekomendasi', 'Core::rekomendasi');
+$routes->get('/rekomendasi/(:any)/(:any)', 'Core::rekomendasi/$1/$2');
 $routes->put('admin/products/(:num)', 'Products::update/$1');
 $routes->put('branch/products/(:num)', 'Products::update/$1');
 
