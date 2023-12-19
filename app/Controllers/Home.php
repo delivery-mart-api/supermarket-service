@@ -6,6 +6,10 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        return view('welcome_message');
+        // UNCOMMENT jika ingin restrict access route kalo belum login
+        if (session()->get('num_user') == '') {
+            return redirect()->to('/login');
+        }
+        return view('product');
     }
 }

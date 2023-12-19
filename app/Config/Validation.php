@@ -41,4 +41,49 @@ class Validation extends BaseConfig
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+
+    public $register = [
+        'username' => [
+            'rules' => 'required|min_length[5]|is_unique[users.username]',
+        ],
+        'password' => [
+            'rules' => 'required',
+        ],
+        'cabang' => [
+            'rules' => 'required|is_unique[users.cabang]',
+        ],
+    ];
+    
+    public $add_product = [
+        'nama' => [
+            'rules' => 'required|is_unique[products.nama]',
+        ],
+        'harga' => [
+            'rules' => 'required|is_natural',
+        ],
+        'stok' => [
+            'rules' => 'required|is_natural',
+        ],
+        'berat' => [
+            'rules' => 'required|is_natural',
+        ]
+    ];
+
+    public $update_product = [
+        'id' => [
+            'rules' => 'is_natural',
+        ],
+        'nama' => [
+            'rules' => 'required|is_unique[products.nama,id,{id}]',
+        ],
+        'harga' => [
+            'rules' => 'required|is_natural',
+        ],
+        'stok' => [
+            'rules' => 'required|is_natural',
+        ],
+        'berat' => [
+            'rules' => 'required|is_natural',
+        ]
+    ];
 }
