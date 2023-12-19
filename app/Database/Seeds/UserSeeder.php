@@ -16,12 +16,6 @@ class UserSeeder extends Seeder
                 'role' => 'admin'
             ],
             [
-                'name' => 'indomaret',
-                'username' => 'indomaret',
-                'password' => sha1('password'),
-                'role' => 'branch'
-            ],
-            [
                 'name' => 'indoapril',
                 'username' => 'indoapril',
                 'password' => sha1('password'),
