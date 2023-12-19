@@ -13,9 +13,12 @@
 
     <div class="container-fluid" style="height: 100vh;">
         <div class="row" style="height: 100%;">
-            <div class="col-8 align-items-center justify-content-center d-flex flex-md-column gap-3" style="background-image: url('/loginbg.svg');background-color: rgba(255,255,255,0.7);background-blend-mode: lighten;background-repeat: no-repeat;background-position: 0% 120%;">
-                <h1>Register Cabangmu</h1>
-                <div class="container w-75">
+        <div class="col-7 align-items-end justify-content-center d-flex flex-md-column gap-3" style="background-image: url('/loginbg.svg');background-color: rgba(255,255,255,0.7);background-blend-mode: lighten;background-repeat: no-repeat;background-position: 100% 120%;"></div>
+            <div class="col-5 align-items-end justify-content-center d-flex flex-md-column gap-3">
+                <div class="d-flex justify-content-center w-100">
+                    <h1 class="">Register Cabangmu</h1>
+                </div>
+                <div class="container w-90">
                     <form action="/register" method="POST" class="d-flex flex-column justify-content-center align-items-center gap-2 w-100">
                         <input required type="text" class="rounded-pill form-control px-4 w-100" id="cabang-register" style="max-width: 400px;height: 50px" name="name" placeholder="Nama Cabang" />
                         <input required type="text" class="rounded-pill form-control px-4 w-100" id="username-register" style="max-width: 400px;height: 50px" name="username" placeholder="Username" />
@@ -23,11 +26,6 @@
                         <button type="submit" class="btn mt-3 btn-success rounded-pill px-5 py-2">Sign Up</button>
                     </form>
                 </div>
-            </div>
-            <div class="col-4 bg-success bg-gradient align-items-center justify-content-center d-flex flex-column gap-4">
-                <h1 class="text-light">Sudah terdaftar?</h1>
-                <p class="text-light fs-4 text-center">Segera login cabangmu untuk layanan delivery online!</p>
-                <a href="<?= base_url('login'); ?>" type="button" class="btn btn-light rounded-pill px-5 py-2">Sign In</a>
             </div>
         </div>
     </div>
