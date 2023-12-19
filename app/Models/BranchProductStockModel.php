@@ -25,4 +25,9 @@ class BranchProductStockModel extends Model
         ];
         return $this->save($data);
     }
+
+    public function findStock($branchId, $productId)
+    {
+        return $this->where(['branch_id' => $branchId, 'product_id' => $productId])->first();
+    }
 }

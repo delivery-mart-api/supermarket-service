@@ -214,7 +214,6 @@ class Products extends BaseController
 
         } 
         else {
-
             if(!$this->validate([
                 'stok' => [
                     'rules' => 'required|is_natural',
@@ -232,7 +231,7 @@ class Products extends BaseController
             $newStock = $this->request->getVar('stok');
             // Ambil branch_id dari sesi atau dari data yang sesuai dengan struktur aplikasi Anda
             $branchId = session()->get('num_user')['id'];
-            $data = $this->branchProductStockData->find([$branchId, $id]);
+            $data = $this->branchProductStockData->findStock($branchId, $id);
 
             if ($data) {
                 // Data ditemukan, lakukan update
