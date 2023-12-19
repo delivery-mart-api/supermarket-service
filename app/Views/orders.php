@@ -10,8 +10,12 @@
             <?php if (empty($orders)) : ?>
                 <p class="text-center text-body-secondary fs-5">Belum ada order</p>
             <?php else : ?>
+                <?php
+                usort($orders, function ($a, $b) {
+                    return strtotime($b['created_at']) - strtotime($a['created_at']);
+                });?>
                 <table class="table table-bordered mb-3">
-                    <thead>
+                    <thead> 
                         <tr>
                             <th>No</th>
                             <th>Produk</th>
